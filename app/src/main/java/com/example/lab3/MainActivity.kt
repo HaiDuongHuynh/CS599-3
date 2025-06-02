@@ -3,10 +3,18 @@ package com.example.lab3
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.ConstrainScope
+import androidx.constraintlayout.compose.ConstraintSet
+//import androidx.constraintlayout.compose.createRefs
+import androidx.constraintlayout.compose.ConstraintLayoutScope
+import androidx.constraintlayout.compose.ConstraintLayoutBaseScope.*
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +31,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,7 +56,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             Lab3Theme {
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    WalmartLoginScreen()
+                    //WalmartLoginScreen()
+                    //CategoryScreen()
+                    //CreateAccountScreen()
+                    CalculatorScreen()
                 }
             }
         }
@@ -169,10 +181,237 @@ fun WalmartLoginScreen() {
     }
 }
 
-//@Composable
-//fun KeyboardOptions(keyboardType: KeyboardType) {
-//    TODO("Not yet implemented")
-//}
+@Composable
+fun CategoryScreen() {
+    ConstraintLayout(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        val (welcome, title, electronicsImg, clothingImg, beautyImg, foodImg, electronicsTxt, clothingTxt, beautyTxt, foodTxt) = createRefs()
+
+        Text("Welcome hello@gmail.com", modifier = Modifier.constrainAs(welcome) {
+            top.linkTo(parent.top)
+            start.linkTo(parent.start)
+        })
+
+        Text("Shop by Categories", fontSize = 20.sp, modifier = Modifier.constrainAs(title) {
+            top.linkTo(welcome.bottom, margin = 16.dp)
+            start.linkTo(parent.start)
+        })
+
+        // Electronics Image
+        Image(
+            painter = painterResource(id = R.drawable.electronics),
+            contentDescription = null,
+            modifier = Modifier
+                .size(160.dp)
+                .constrainAs(electronicsImg) {
+                    top.linkTo(title.bottom, margin = 16.dp)
+                    start.linkTo(parent.start)
+                }
+        )
+
+        Text("Electronics", modifier = Modifier.constrainAs(electronicsTxt) {
+            top.linkTo(electronicsImg.bottom)
+            start.linkTo(electronicsImg.start)
+        })
+
+        // Clothing Image
+        Image(
+            painter = painterResource(id = R.drawable.clothing),
+            contentDescription = null,
+            modifier = Modifier
+                .size(160.dp)
+                .constrainAs(clothingImg) {
+                    top.linkTo(title.bottom, margin = 16.dp)
+                    end.linkTo(parent.end)
+                }
+        )
+
+        Text("Clothing", modifier = Modifier.constrainAs(clothingTxt) {
+            top.linkTo(clothingImg.bottom)
+            start.linkTo(clothingImg.start)
+        })
+
+        // Beauty Image
+        Image(
+            painter = painterResource(id = R.drawable.beauty),
+            contentDescription = null,
+            modifier = Modifier
+                .size(160.dp)
+                .constrainAs(beautyImg) {
+                    top.linkTo(electronicsImg.bottom, margin = 32.dp)
+                    start.linkTo(parent.start)
+                }
+        )
+
+        Text("Beauty", modifier = Modifier.constrainAs(beautyTxt) {
+            top.linkTo(beautyImg.bottom)
+            start.linkTo(beautyImg.start)
+        })
+
+        // Food Image
+        Image(
+            painter = painterResource(id = R.drawable.food),
+            contentDescription = null,
+            modifier = Modifier
+                .size(160.dp)
+                .constrainAs(foodImg) {
+                    top.linkTo(clothingImg.bottom, margin = 32.dp)
+                    end.linkTo(parent.end)
+                }
+        )
+
+        Text("Food", modifier = Modifier.constrainAs(foodTxt) {
+            top.linkTo(foodImg.bottom)
+            start.linkTo(foodImg.start)
+        })
+    }
+}
+
+@Composable
+fun CreateAccountScreen() {
+    ConstraintLayout(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        val (logo, title, fname, lname, email, password, button) = createRefs()
+
+        Image(
+            painter = painterResource(id = R.drawable.walmart_logo),
+            contentDescription = "Logo",
+            modifier = Modifier
+                .size(100.dp)
+                .constrainAs(logo) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+        )
+
+        Text("Create your account", modifier = Modifier.constrainAs(title) {
+            top.linkTo(logo.bottom, margin = 16.dp)
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+        })
+
+        OutlinedTextField(
+            value = "",
+            onValueChange = {},
+            label = { Text("First name*") },
+            modifier = Modifier.constrainAs(fname) {
+                top.linkTo(title.bottom, margin = 16.dp)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
+        )
+
+        OutlinedTextField(
+            value = "",
+            onValueChange = {},
+            label = { Text("Last name*") },
+            modifier = Modifier.constrainAs(lname) {
+                top.linkTo(fname.bottom, margin = 8.dp)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
+        )
+
+        OutlinedTextField(
+            value = "",
+            onValueChange = {},
+            label = { Text("Email address*") },
+            modifier = Modifier.constrainAs(email) {
+                top.linkTo(lname.bottom, margin = 8.dp)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
+        )
+
+        OutlinedTextField(
+            value = "",
+            onValueChange = {},
+            label = { Text("Password*") },
+            modifier = Modifier.constrainAs(password) {
+                top.linkTo(email.bottom, margin = 8.dp)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
+        )
+
+        Button(
+            onClick = { /* Create Account */ },
+            modifier = Modifier.constrainAs(button) {
+                top.linkTo(password.bottom, margin = 16.dp)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
+        ) {
+            Text("Create Account")
+        }
+    }
+}
+
+@Composable
+fun CalculatorScreen() {
+    ConstraintLayout(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        val (firstNum, secondNum, result, resultLabel, addBtn, subBtn, mulBtn, divBtn) = createRefs()
+
+        TextField(
+            value = "",
+            onValueChange = {},
+            label = { Text("First Number") },
+            modifier = Modifier.constrainAs(firstNum) {
+                top.linkTo(parent.top, margin = 80.dp)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
+        )
+
+        TextField(
+            value = "",
+            onValueChange = {},
+            label = { Text("Second Number") },
+            modifier = Modifier.constrainAs(secondNum) {
+                top.linkTo(firstNum.bottom, margin = 16.dp)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
+        )
+
+        Text("Result", modifier = Modifier.constrainAs(resultLabel) {
+            top.linkTo(secondNum.bottom, margin = 24.dp)
+            start.linkTo(parent.start)
+        })
+
+        Text("TextView", modifier = Modifier.constrainAs(result) {
+            top.linkTo(secondNum.bottom, margin = 24.dp)
+            end.linkTo(parent.end)
+        })
+
+        val guideline = createGuidelineFromStart(0.1f)
+
+        // Operation buttons
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.constrainAs(addBtn) {
+                top.linkTo(result.bottom, margin = 24.dp)
+                start.linkTo(guideline)
+            }
+        ) {
+            Button(onClick = {}) { Text("+") }
+            Button(onClick = {}) { Text("-") }
+            Button(onClick = {}) { Text("*") }
+            Button(onClick = {}) { Text("/") }
+        }
+    }
+}
 
 
 @Preview(showBackground = true)
