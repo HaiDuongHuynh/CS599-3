@@ -37,6 +37,9 @@ android {
     buildFeatures {
         compose = true
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.11" // Or the latest version matching the BOM
+    }
 }
 
 dependencies {
@@ -49,6 +52,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(platform("androidx.compose:compose-bom:2024.04.01"))
     implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha10")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

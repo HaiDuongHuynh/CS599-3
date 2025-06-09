@@ -45,6 +45,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.lab3.ui.theme.Lab3Theme
@@ -354,63 +355,79 @@ fun CreateAccountScreen() {
     }
 }
 
+
 @Composable
 fun CalculatorScreen() {
-    ConstraintLayout(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        val (firstNum, secondNum, result, resultLabel, addBtn, subBtn, mulBtn, divBtn) = createRefs()
+    var firstNumber by remember { mutableStateOf("") }
+    var secondNumber by remember { mutableStateOf("") }
+    var result by remember { mutableStateOf("") }
 
-        TextField(
-            value = "",
-            onValueChange = {},
+    Column(modifier = Modifier.padding(16.dp)) {
+        OutlinedTextField(
+            value = firstNumber,
+            onValueChange = { firstNumber = it },
             label = { Text("First Number") },
-            modifier = Modifier.constrainAs(firstNum) {
-                top.linkTo(parent.top, margin = 80.dp)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-            }
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            modifier = Modifier.fillMaxWidth()
         )
 
-        TextField(
-            value = "",
-            onValueChange = {},
+        Spacer(modifier = Modifier.height(8.dp))
+
+        OutlinedTextField(
+            value = secondNumber,
+            onValueChange = { secondNumber = it },
             label = { Text("Second Number") },
-            modifier = Modifier.constrainAs(secondNum) {
-                top.linkTo(firstNum.bottom, margin = 16.dp)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-            }
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            modifier = Modifier.fillMaxWidth()
         )
 
-        Text("Result", modifier = Modifier.constrainAs(resultLabel) {
-            top.linkTo(secondNum.bottom, margin = 24.dp)
-            start.linkTo(parent.start)
-        })
+        Spacer(modifier = Modifier.height(16.dp))
 
-        Text("TextView", modifier = Modifier.constrainAs(result) {
-            top.linkTo(secondNum.bottom, margin = 24.dp)
-            end.linkTo(parent.end)
-        })
+        Text("Result: $result")
 
-        val guideline = createGuidelineFromStart(0.1f)
+        Spacer(modifier = Modifier.height(16.dp))
 
-        // Operation buttons
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.constrainAs(addBtn) {
-                top.linkTo(result.bottom, margin = 24.dp)
-                start.linkTo(guideline)
-            }
-        ) {
-            Button(onClick = {}) { Text("+") }
-            Button(onClick = {}) { Text("-") }
-            Button(onClick = {}) { Text("*") }
-            Button(onClick = {}) { Text("/") }
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Button(onClick = {
+                result = add(firstNumber, secondNumber)
+            }) { Text("+") }
+
+            Button(onClick = {
+                result = subtract(firstNumber, secondNumber)
+            }) { Text("-") }
+            Button(onClick = {
+                result = mul(firstNumber, secondNumber)
+            }) { Text("*") }
+
+            Button(onClick = {
+                result = div(firstNumber, secondNumber)
+            }) { Text("/") }
         }
     }
+}
+
+fun add(a: String, b: String): String {
+    val num1 = a.toDoubleOrNull() ?: 0.0
+    val num2 = b.toDoubleOrNull() ?: 0.0
+    return (num1 + num2).toString()
+}
+
+fun subtract(a: String, b: String): String {
+    val num1 = a.toDoubleOrNull() ?: 0.0
+    val num2 = b.toDoubleOrNull() ?: 0.0
+    return (num1 - num2).toString()
+}
+
+fun mul(a: String, b: String): String {
+    val num1 = a.toDoubleOrNull() ?: 0.0
+    val num2 = b.toDoubleOrNull() ?: 0.0
+    return (num1 * num2).toString()
+}
+
+fun div(a: String, b: String): String {
+    val num1 = a.toDoubleOrNull() ?: 0.0
+    val num2 = b.toDoubleOrNull() ?: 0.0
+    return (num1 / num2).toString()
 }
 
 
